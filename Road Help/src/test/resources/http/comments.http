@@ -1,0 +1,28 @@
+POST http://localhost:8080/signIn
+Content-Type: application/json
+
+{
+  "login": "shafinskiyd@mail.ru",
+  "password": "danil03"
+}
+
+> {% client.global.set("token", response.body.access_token) %}
+
+### Проверка сохраненного токена (опционально)
+GET http://localhost:8080
+Authorization: Bearer {{token}}
+
+> {% client.log("Current Token:", client.global.get("token")) %}
+
+### Получение списка комментариев пользователя
+GET http://localhost:8080/profile/10/comments
+Authorization: Bearer {{token}}
+
+### Добавление нового комментария
+POST http://localhost:8080/profile/10/comments
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "content": "test comment"
+}
